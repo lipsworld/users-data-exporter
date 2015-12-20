@@ -1,0 +1,24 @@
+#ude-cont{
+	padding-right: 20px;
+}
+
+.export-users-data .users-roles label{
+	padding-right: 25px;
+}
+
+.export-users-data .users-meta-keys label{
+	display: inline-block;
+	width: 300px;
+}
+
+.progress{
+	text-align: center;
+}
+.progress > div{
+	border: 1px solid #000000;
+}
+.progress > div > div{
+	height: 25px;
+	background-color: #333333;
+	width: 1%;
+}
