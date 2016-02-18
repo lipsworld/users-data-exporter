@@ -62,8 +62,6 @@ jQuery(document).ready( function($) {
 		masterClone.find('label.between').attr('for', 'add_filter_meta_between_'+m_f_id);
 		masterClone.removeClass('master hide').appendTo('.meta-filters>div.grouped');
 		rebindClose();
-		//m_f_id++;
-		//$('.meta-filters>.grouped>.meta-filter:last-child').find('label.equal_to').click();
 	});
 
 	$('#add_meta_filter').get(0).checked = false;

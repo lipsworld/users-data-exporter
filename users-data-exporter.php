@@ -37,7 +37,7 @@ function export_users_data_admin_page(){
 
 	$pmpro_cond_SQL = '';
 
-	//echo $_POST['ude_export_selection']; // Debug
+	
 
 	if( isset($_POST['ude_export_selection']) && $_POST['ude_export_selection']=='Export' && (count($_POST['users_basics'])>0 || count($_POST['users_meta_keys'])>0) ){
 		
@@ -128,15 +128,10 @@ function export_users_data_admin_page(){
 			/* Generate SQL to Filter by Meta Field */
 			if( isset($_POST['add_meta_filter']) && $_POST['add_meta_filter']=='add_meta_filter' ){
 				
-				//echo '<pre>'; print_r($_POST['filter_meta_key']); echo '</pre>'; // Debug
-				
 				foreach ($_POST['filter_meta_key'] as $meta_key_key => $meta_key) {
 					$m_f_id = $_POST['m_f_id'][$meta_key_key];
-					echo '$m_f_id='.$m_f_id.'<br>';
+					
 					if( isset($_POST['add_meta_filter_type_'.$m_f_id]) && $_POST['add_meta_filter_type_'.$m_f_id]=='equal' ){
-
-						//echo '<pre>'; print_r($_POST['add_meta_filter_type_'.$m_f_id]); echo '</pre>'; // Debug
-
 						if( empty($_POST['meta_filter_equal_to_value'][$meta_key_key]) ){
 							echo "<div class=\"update-nag\">Meta Filter Value is not filled.</div>";
 							return false;
@@ -155,7 +150,6 @@ function export_users_data_admin_page(){
 							echo "<div class=\"update-nag\">One or more Meta Filter Values are not filled.</div>";
 							return false;
 						}else{
-							echo '$_POST["add_meta_filter_type"]=between is OK';
 							$meta_filters_SQL[] = $wpdb->prepare("
 													SELECT DISTINCT user_id AS ID 
 													FROM {$prefix}usermeta 
@@ -169,7 +163,7 @@ function export_users_data_admin_page(){
 					}
 				}
 			}
-			//echo '<pre>'; print_r($meta_filters_SQL); echo '</pre>'; //Debug
+			
 
 			/* Getting Results from Database by Executing SQLs */
 			if(!empty($meta_filters_SQL)){
@@ -183,7 +177,7 @@ function export_users_data_admin_page(){
 								 	{$SQL_FROM}
 								 	WHERE {$prefix}users.ID = {$prefix}usermeta.user_id AND {$prefix}usermeta.meta_key = '{$prefix}capabilities' 
 									".$role_cond_SQL.$email_cond_SQL.$login_cond_SQL.$user_id_cond_SQL.$reg_date_cond_SQL.$pmpro_cond_SQL; 
-			//echo "<br>$selected_users_SQL<br>"; // Debug
+			
 			$selected_users_IDs = $wpdb->get_col( $selected_users_SQL );
 			$num_users_selected = $wpdb->num_rows;
 			
@@ -193,7 +187,7 @@ function export_users_data_admin_page(){
 					$selected_users_IDs = array_intersect($selected_users_IDs, $selected_IDs_by_meta_filter);
 				}
 				$selected_users_IDs = array_values($selected_users_IDs);
-				//echo '<pre>'; print_r($selected_users_IDs); echo '</pre>'; // Debug
+				
 				$num_users_selected = count($selected_users_IDs);
 			}
 			
@@ -202,7 +196,7 @@ function export_users_data_admin_page(){
 				echo "<h4>Exporting ".$num_users_selected." users.<h4>";
 				update_option( 'num_users_selected', $num_users_selected );
 				update_option( 'selected_users_IDs', serialize($selected_users_IDs) );
-				//echo '<pre>'; print_r($selected_users_IDs); echo '</pre>'; // Debug
+				
 				if( is_numeric($_POST['limit_num_user_per_exec']) ){
 					update_option( 'limit_num_user_per_exec', $_POST['limit_num_user_per_exec'] );
 				}
@@ -227,7 +221,7 @@ function export_users_data_admin_page(){
 				}
 				
 				update_option( 'output_col_list', serialize($output_col_list) );
-				//echo '<pre>'; print_r($output_col_list); echo '</pre>'; // Debug
+				
 
 				$sheet = new PHPExcel();
 				$sheet->getProperties()->setCreator("Users Data")
@@ -260,7 +254,7 @@ function export_users_data_admin_page(){
 				} catch (Exception $e) {
 					echo $e->getMessage();
 				}
-				//echo '<br>'.$xlsx_file_with_full_path.'<br>'; // Debug
+				
 
 				?>
 				<div class="progress" data-listener="<?php echo admin_url('admin-ajax.php'); ?>"><div><div></div></div><span>0%</span></div>
@@ -272,7 +266,7 @@ function export_users_data_admin_page(){
 				echo "<h4>No users found with selected conditions.<h4>";
 			}
 
-			//echo '<pre>'; print_r($selected_users_basics); echo '</pre>'; // Debug
+			
 			 
 		}else{
 			?><h4>Something went wrong please try again. <a class="button-primary" href="<?php echo admin_url('users.php?page=export-users-data-menu'); ?>">Start Over</a></h4><?php 
@@ -294,8 +288,6 @@ function export_users_data_admin_page(){
 				<?php
 				$roles = get_editable_roles();
 				foreach ($roles as $role_name => $role_info) {
-					//echo "<br> ".$role_name; // Debug
-					//echo '<pre>'; print_r($role_info); echo '</pre>'; // Debug
 					?><label><input type="checkbox" name="roles[]" value="<?php echo $role_name; ?>"><?php echo ucfirst($role_name); ?> </label> <?php 
 				}
 				?> 
@@ -320,7 +312,7 @@ function export_users_data_admin_page(){
 										WHERE meta_key NOT LIKE '%{$prefix}%'
 										ORDER BY meta_key
 										";
-				//echo $users_meta_keys_SQL; // Debug
+				
 				$users_meta_keys = $wpdb->get_col($users_meta_keys_SQL);
 				foreach ( $users_meta_keys as $pos=>$users_meta_key ) {
 					?><label><input type="checkbox" name="users_meta_keys[]" value="<?php echo $users_meta_key; ?>"><?php echo $users_meta_key; ?> </label> <?php
@@ -465,7 +457,6 @@ function users_data_exporter(){
 
 	/* Getting Resultant IDs and Some Variables to Start the Loop */
 	$selected_users_basics = unserialize( get_option('selected_users_basics') );
-	//echo '<pre>'; print_r($selected_users_basics); echo '</pre>'; // Debug
 	$selected_users_IDs = unserialize( get_option('selected_users_IDs') );
 	$selected_users_meta_keys = unserialize( get_option('selected_users_meta_keys') );
 	$output_col_list = unserialize( get_option('output_col_list') );
@@ -474,8 +465,7 @@ function users_data_exporter(){
 	$limit_num_user_per_exec = get_option( 'limit_num_user_per_exec' );
 	$output_row_key = (int)get_option('next_output_row_key');
 	$xlsx_file_with_full_path = get_option('xlsx_file_with_full_path');
-	//echo '---'.$output_row_key.'---'; // Debug
-	//echo '---selected_users_IDs = <pre>'; print_r($selected_users_IDs); echo '</pre>'; // Debug
+	
 	
 	$i = -1;
 	if( $next_users_IDs_index > -1 ){
@@ -493,11 +483,9 @@ function users_data_exporter(){
 		for($i=$next_users_IDs_index; $i<=$next_users_IDs_index-1+$limit_num_user_per_exec && $i<$num_users_selected; $i++){
 			
 			$user_id = $selected_users_IDs[$i];
-			//echo 'output_row_key = '.$output_row_key; // Debug
 			$user_basics = get_userdata($user_id);
-			//echo '---Basics of user_id - '.$user_id.' <pre>'; print_r($user_basics); echo '</pre>'; // Debug
 			$user_metas = get_user_meta($user_id);
-			//echo 'Roles of user_id - '.$user_id.' <pre>'; print_r($user_metas); echo '</pre>'; // Debug
+			
 			foreach ($output_col_list as $data_key => $col_key) {
 				if ( is_array($selected_users_basics) && count($selected_users_basics)>0 ) {
 					if( in_array($data_key, $selected_users_basics) ){
@@ -507,7 +495,6 @@ function users_data_exporter(){
 							$activeSheet->setCellValue( $col_key.$output_row_key, $roles );
 						}else{
 							$activeSheet->setCellValue( $col_key.$output_row_key, $user_basics->$data_key );
-							//echo "---|---{$col_key}{$output_row_key}---{$data_key}---".$user_basics->$data_key."---|---"; // Debug
 						}
 
 					}else{
@@ -517,7 +504,6 @@ function users_data_exporter(){
 						else{
 							$activeSheet->setCellValue( $col_key.$output_row_key, '' );
 						}
-						//echo "---|---{$col_key}{$output_row_key}---{$data_key}---".$user_metas[$data_key][0]."---|---"; // Debug
 					}
 				}
 				else{
@@ -526,7 +512,6 @@ function users_data_exporter(){
 					else{
 						$activeSheet->setCellValue( $col_key.$output_row_key, '' );
 					}
-					//echo "---|---{$col_key}{$output_row_key}---{$data_key}---".$user_metas[$data_key][0]."---|---"; // Debug
 				}
 			}
 			$output_row_key++;
@@ -541,12 +526,11 @@ function users_data_exporter(){
 			$sheetWriter = PHPExcel_IOFactory::createWriter($sheet, 'Excel2007');
 			$sheetWriter->save( $xlsx_file_with_full_path );
 		} catch (Exception $e) {
-			//echo '***'.$e->getMessage();
+			//echo '***'.$e->getMessage(); //Debug
 		}
 	}
 
 	/* Placing the Reply for Browser in JSON Format */
-	//echo '-$i = '.$i;
 	if($i<=$num_users_selected-1 && $i>-1){
 		$progress = $i/$num_users_selected*100;
 		$reply['running'] = TRUE;
