@@ -8,12 +8,12 @@ Stable tag: 1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Robust way to export selected users data to .xlsx spreadsheet, specially when number of users of a site is very big like 100,000+.
+Robust way to export selected users data to .xlsx spreadsheet, especially when number of users of a site is very big like 100,000+.
 
 
 == Description ==
 
-Robust way to export selected users data to .xlsx spreadsheet, specially when number of users of a site is very big like 100,000+.
+Robust way to export selected users data to .xlsx spreadsheet, especially when number of users of a site is very big like 100,000+.
 
 Available Filters:
 - User Roles (One or more)
@@ -40,7 +40,7 @@ Single execution length can be increased to adjust with available server resourc
 
 == Frequently Asked Questions ==
 
-= Can I use "%" comarison for "equal to" filter? =
+= Can I use "%" comparison for "equal to" filter? =
 
 Yes, you can if the WordPress is using a MySQL database.
 
@@ -57,7 +57,7 @@ screenshot-1.png
 2. Waiting While Exporting 
 screenshot-2.png
 
-3. Exported .xlsx File in Mirosoft Excel 
+3. Exported .xlsx File in Microsoft Excel 
 screenshot-3.png
 
 

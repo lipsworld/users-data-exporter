@@ -2,7 +2,7 @@
 /*
 Plugin Name: Users Data Exporter
 Plugin URI:  http://#
-Description: Robust way to export selected user types and selected user data to .xlsx spreadsheet, specially when number of users of a site is very big like 100,000+. 
+Description: Robust way to export selected users data to .xlsx spreadsheet, especially when number of users of a site is very big like 100,000+. 
 Version:     1.0
 Author:      Taher Uddin
 Author URI:  http://taheruddin.com
