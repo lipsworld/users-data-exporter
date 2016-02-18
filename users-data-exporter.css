@@ -44,3 +44,98 @@
 	display: none;
 	margin-top: 25px;
 }
+
+.expander ~ div{
+	display: none;
+	padding-left: 15px;
+}
+.expander:checked ~ div:not(.hide){
+	display: block;
+}
+
+.expander:checked ~ div.inline{
+	display: inline;
+	padding-left: 0;
+}
+.inline{
+	display: inline;
+}
+.inline input{
+	vertical-align: bottom;
+}
+
+
+.meta-filter{
+	position: relative;
+	margin-top: 40px;
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+label.equal_to{
+	background-color: #F1F1F1;
+	position: absolute;
+	top: -30px;
+	left: -1px;
+	border: 1px solid #ccc;
+	width: 105px;
+	height: 19px;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+label.between{
+	background-color: #F1F1F1;
+	position: absolute;
+	top: -30px;
+	left: 110px;
+	border: 1px solid #ccc;
+	width: 120px;
+	height: 19px;
+	padding-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.meta-filter .expander:checked ~ label/* .equal_to, .meta-filter .expander:checked ~ label.between */{
+	color: #000;
+	font-weight: 700;
+	border-color: #888;
+	border-bottom: none;
+	z-index: 9;
+}
+.meta-filter .close{
+	background-color: #F1F1F1;
+	position: absolute;
+	top: -30px;
+	right: -1px;
+	border: 1px solid #ccc;
+	border-bottom-color: #F1F1F1;
+	width: 20px;
+	height: 22px;
+	padding-top: 2px;
+	padding-bottom: 5px;
+	color: #f00;
+	text-align: center;
+	cursor: pointer;
+}
+#more-meta-filter{
+	background-color: #ddd;
+	width: 150px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-left: 15px;
+	margin-top: 10px;
+	text-align: center;
+	cursor: pointer;
+}
+#more-meta-filter:hover{
+	background-color: #ccc;
+	color: #000;
+}
+
+
+.expander.hide{
+	display: none;
+}
+.hide{
+	display: none;
+}
